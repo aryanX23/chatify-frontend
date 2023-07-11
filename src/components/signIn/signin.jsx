@@ -9,7 +9,7 @@ export default function SignIn() {
     useEffect(() => {
         let isAuth = localStorage.getItem('isAuthenticated');
         if(isAuth && isAuth !== null) {
-            navigate("/dashboard/");
+            navigate("/chatify-frontend/dashboard/");
         }
     }, [navigate]);
     const [showMessage, setShowMessage] = useState("");
@@ -52,7 +52,7 @@ export default function SignIn() {
                     localStorage.setItem("fullName", response.data.user.fullName);
                     localStorage.setItem("userId", response.data.user._id);
                     localStorage.setItem("email", response.data.user.email);
-                    navigate('/dashboard/');
+                    navigate("/chatify-frontend/dashboard/");
                 }
             })
             .catch(function (response) {
@@ -69,52 +69,78 @@ export default function SignIn() {
             });
     }
     return (
-        <div className='signInBody' >
-            <img src={process.env.PUBLIC_URL + "/images/signupbg1.jpg"} alt="background" className='signInbg' />
-            <div className='headerBody' >
-                <div className='headerTitle'>
+        <div className="signInBody">
+            <img
+                src={process.env.PUBLIC_URL + "/images/signupbg1.jpg"}
+                alt="background"
+                className="signInbg"
+            />
+            <div className="headerBody">
+                <div className="headerTitle">
                     <span>Chatify</span>
                 </div>
                 <div>
-                    <button className='actionButton' onClick={()=>{navigate('/register')}} >Register</button>
+                    <button
+                        className="actionButton"
+                        onClick={() => {
+                            navigate("/chatify-frontend/register/");
+                        }}
+                    >
+                        Register
+                    </button>
                 </div>
             </div>
-            {   showMessage.length !== 0?
-                <div className='dialogBox'>
-                    { chooseResponse(showMessage)}
-                </div>
-                : <></>
-            }
-            <div className='formWrapper' >
-                <div className='form-box'>
+            {showMessage.length !== 0 ? (
+                <div className="dialogBox">{chooseResponse(showMessage)}</div>
+            ) : (
+                <></>
+            )}
+            <div className="formWrapper">
+                <div className="form-box">
                     <h2>Login</h2>
                     <form onSubmit={handleSubmit}>
-                        <div className='input-box' >
-                            <span className='icon' >
+                        <div className="input-box">
+                            <span className="icon">
                                 <IonIcon icon={mail} />
                             </span>
-                            <input type="email" onChange={handleChange} name='email' value={userDetails.email} placeholder=' ' required/>
+                            <input
+                                type="email"
+                                onChange={handleChange}
+                                name="email"
+                                value={userDetails.email}
+                                placeholder=" "
+                                required
+                            />
                             <label>Email</label>
                         </div>
-                        <div className='input-box' >
-                            <span className='icon' >
+                        <div className="input-box">
+                            <span className="icon">
                                 <IonIcon icon={lockClosed} />
                             </span>
-                            <input type="password" onChange={handleChange} name='password' value={userDetails.password} placeholder=' ' required/>
+                            <input
+                                type="password"
+                                onChange={handleChange}
+                                name="password"
+                                value={userDetails.password}
+                                placeholder=" "
+                                required
+                            />
                             <label>Password</label>
                         </div>
-                        <div className='remember-forgot'>
+                        <div className="remember-forgot">
                             <label>
                                 <input type="checkbox" />
                                 Remember Me
                             </label>
                             <Link>Forgot Password?</Link>
                         </div>
-                        <button type='submit' className='btn' >Login</button>
-                        <div className='login-register' >
+                        <button type="submit" className="btn">
+                            Login
+                        </button>
+                        <div className="login-register">
                             <p>
                                 Don't have an account?
-                                <Link to='/register'>
+                                <Link to="/chatify-frontend/register/">
                                     Register
                                 </Link>
                             </p>

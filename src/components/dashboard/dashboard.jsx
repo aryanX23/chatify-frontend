@@ -32,7 +32,7 @@ export default function Dashboard() {
                         email: "",
                         userId: ""
                     }));
-                    navigate('/');
+                    navigate("/chatify-frontend/");
                 }
                 else {
                     localStorage.setItem("isAuthenticated",true);

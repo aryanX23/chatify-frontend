@@ -10,7 +10,7 @@ export default function Register() {
     useEffect(() => {
         let isAuth = localStorage.getItem('isAuthenticated');
         if(isAuth && isAuth !== null) {
-            navigate("/dashboard/");
+            navigate("/chatify-frontend/dashboard/");
         }
     }, [navigate]);
     const ref = useRef([]);
@@ -62,7 +62,7 @@ export default function Register() {
             setShowMessage(prev => "regsuccess");
             setTimeout(() => {
                 setShowMessage(prev => "");
-                navigate('/'); 
+                navigate("/chatify-frontend/"); 
             }, 2000);      
         }
     }
@@ -92,67 +92,111 @@ export default function Register() {
         }
     }
     return (
-        <div className='signInBody' >
-            <img src={process.env.PUBLIC_URL + "/images/signupbg1.jpg"} alt="background" className='signInbg' />
-            <div className='headerBody' >
-                <div className='headerTitle'>
+        <div className="signInBody">
+            <img
+                src={process.env.PUBLIC_URL + "/images/signupbg1.jpg"}
+                alt="background"
+                className="signInbg"
+            />
+            <div className="headerBody">
+                <div className="headerTitle">
                     <span>Chatify</span>
                 </div>
                 <div>
-                    <button onClick={()=>{navigate('/')}} className='actionButton' >Login</button>
+                    <button
+                        onClick={() => {
+                            navigate("/");
+                        }}
+                        className="actionButton"
+                    >
+                        Login
+                    </button>
                 </div>
             </div>
-            {   showMessage.length !== 0?
-                <div className='dialogBox'>
-                    { chooseResponse(showMessage)}
-                </div>
-                : <></>
-            }
-            <div className='formWrapper' >
-                <div className='form-box'>
+            {showMessage.length !== 0 ? (
+                <div className="dialogBox">{chooseResponse(showMessage)}</div>
+            ) : (
+                <></>
+            )}
+            <div className="formWrapper">
+                <div className="form-box">
                     <h2>Register</h2>
                     <form onSubmit={handleRegister}>
-                        <div className='input-box' >
-                            <span className='icon' >
+                        <div className="input-box">
+                            <span className="icon">
                                 <IonIcon icon={person} />
                             </span>
-                            <input type="text" onChange={handleChange} value={userDetails.fullName} name='fullName' placeholder=' ' required/>
+                            <input
+                                type="text"
+                                onChange={handleChange}
+                                value={userDetails.fullName}
+                                name="fullName"
+                                placeholder=" "
+                                required
+                            />
                             <label>Full Name</label>
                         </div>
-                        <div className='input-box' >
-                            <span className='icon' >
+                        <div className="input-box">
+                            <span className="icon">
                                 <IonIcon icon={mail} />
                             </span>
-                            <input type="email" name='email' onChange={handleChange} value={userDetails.email} placeholder=' ' required/>
+                            <input
+                                type="email"
+                                name="email"
+                                onChange={handleChange}
+                                value={userDetails.email}
+                                placeholder=" "
+                                required
+                            />
                             <label>Email</label>
                         </div>
-                        <div className='input-box' >
-                            <span className='icon' >
+                        <div className="input-box">
+                            <span className="icon">
                                 <IonIcon icon={lockClosed} />
                             </span>
-                            <input type="password" name='password' onChange={handleChange} value={userDetails.password} placeholder=' ' required/>
+                            <input
+                                type="password"
+                                name="password"
+                                onChange={handleChange}
+                                value={userDetails.password}
+                                placeholder=" "
+                                required
+                            />
                             <label>Password</label>
                         </div>
-                        <div className='input-box' >
-                            <span className='icon' >
+                        <div className="input-box">
+                            <span className="icon">
                                 <IonIcon icon={lockClosed} />
                             </span>
-                            <input type="password" name='confirmPassword' onChange={handleChange} value={userDetails.confirmPassword} placeholder=' ' required/>
+                            <input
+                                type="password"
+                                name="confirmPassword"
+                                onChange={handleChange}
+                                value={userDetails.confirmPassword}
+                                placeholder=" "
+                                required
+                            />
                             <label>Confirm Password</label>
                         </div>
-                        <div className='remember-forgot'>
+                        <div className="remember-forgot">
                             <label>
-                                <input type="checkbox" ref={(element) => { ref.current = element }} required/>
-                                <Link>
-                                    Accept Our Terms and Conditions?
-                                </Link>
+                                <input
+                                    type="checkbox"
+                                    ref={(element) => {
+                                        ref.current = element;
+                                    }}
+                                    required
+                                />
+                                <Link>Accept Our Terms and Conditions?</Link>
                             </label>
                         </div>
-                        <button type='submit' className='btn' >Register</button>
-                        <div className='login-register' >
+                        <button type="submit" className="btn">
+                            Register
+                        </button>
+                        <div className="login-register">
                             <p>
                                 Already have an account?
-                                <Link to='/'>
+                                <Link to="/chatify-frontend/">
                                     Login
                                 </Link>
                             </p>

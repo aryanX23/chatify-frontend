@@ -7,18 +7,29 @@ import AppContext from './context/AppProvider';
 import PrivateRoutes from './context/privateRoutes'
 function App() {
   return (
-    <AppContext>
-      <div className="appBody">
-        <Routes>
-          <Route exact path='/' element={<SignIn />} />
-          <Route exact path='/register' element={<Register />} />
-          <Route path="*" element={<Navigate to="/" replace />}/>
-          <Route  element={<PrivateRoutes/>} >
-            <Route exact path='/dashboard/' element={<Dashboard/>}/>  
-          </Route>
-        </Routes>
-      </div>
-    </AppContext>
+      <AppContext>
+          <div className="appBody">
+              <Routes>
+                  <Route exact path="/chatify-frontend/" element={<SignIn />} />
+                  <Route
+                      exact
+                      path="/chatify-frontend/register/"
+                      element={<Register />}
+                  />
+                  <Route
+                      path="*"
+                      element={<Navigate to="/chatify-frontend/" replace />}
+                  />
+                  <Route element={<PrivateRoutes />}>
+                      <Route
+                          exact
+                          path="/chatify-frontend/dashboard/"
+                          element={<Dashboard />}
+                      />
+                  </Route>
+              </Routes>
+          </div>
+      </AppContext>
   );
 }
 
