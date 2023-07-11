@@ -1,0 +1,17 @@
+.dashboardBody {
+    height: 100%;
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    overflow: scroll;
+    border: 2px solid ;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.dashboardBody::-webkit-scrollbar {
+    display: none;
+    overflow: scroll;
+}
