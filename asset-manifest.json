@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/chatify-frontend/static/css/main.d4261d98.css",
+    "main.js": "/chatify-frontend/static/js/main.b90540f6.js",
+    "static/js/443.5b17ba89.chunk.js": "/chatify-frontend/static/js/443.5b17ba89.chunk.js",
+    "static/js/738.35c3f789.chunk.js": "/chatify-frontend/static/js/738.35c3f789.chunk.js",
+    "static/js/3.00b7c5cd.chunk.js": "/chatify-frontend/static/js/3.00b7c5cd.chunk.js",
+    "static/js/372.692051f3.chunk.js": "/chatify-frontend/static/js/372.692051f3.chunk.js",
+    "static/js/856.c20bd2a3.chunk.js": "/chatify-frontend/static/js/856.c20bd2a3.chunk.js",
+    "index.html": "/chatify-frontend/index.html",
+    "main.d4261d98.css.map": "/chatify-frontend/static/css/main.d4261d98.css.map",
+    "main.b90540f6.js.map": "/chatify-frontend/static/js/main.b90540f6.js.map",
+    "443.5b17ba89.chunk.js.map": "/chatify-frontend/static/js/443.5b17ba89.chunk.js.map",
+    "738.35c3f789.chunk.js.map": "/chatify-frontend/static/js/738.35c3f789.chunk.js.map",
+    "3.00b7c5cd.chunk.js.map": "/chatify-frontend/static/js/3.00b7c5cd.chunk.js.map",
+    "372.692051f3.chunk.js.map": "/chatify-frontend/static/js/372.692051f3.chunk.js.map",
+    "856.c20bd2a3.chunk.js.map": "/chatify-frontend/static/js/856.c20bd2a3.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d4261d98.css",
+    "static/js/main.b90540f6.js"
+  ]
+}
