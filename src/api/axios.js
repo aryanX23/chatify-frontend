@@ -1,5 +1,5 @@
 import axios from 'axios';
-const BASE_URL = 'http://192.168.12.1:8000';
+const BASE_URL = 'http://localhost:8000';
 
 export const Axios = axios.create({
     headers: { 'Content-Type': 'application/json' },

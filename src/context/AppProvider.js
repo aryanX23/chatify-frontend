@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import { io } from "socket.io-client";
+import { URL } from "../api/axios";
 
 export const Context = createContext();
 
@@ -19,7 +20,7 @@ export const AppContext = ({ children }) => {
         }));
     };
     useEffect(() => {
-        setSocket(io("http://192.168.12.1:8000/"));
+        setSocket(io(URL));
     }, []);
     return (
         <Context.Provider

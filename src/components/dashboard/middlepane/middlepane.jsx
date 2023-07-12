@@ -110,8 +110,6 @@ export default function Middlepane(props) {
                 </div>
             );
     });
-    //console.log(messages);
-
     useEffect(() => {
         socket?.emit("addUser", props.userDetails.userId);
         socket?.on("getUsers", (users) => {
