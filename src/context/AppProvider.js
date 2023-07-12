@@ -1,4 +1,5 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
+import { io } from "socket.io-client";
 
 export const Context = createContext();
 
@@ -6,9 +7,9 @@ export const AppContext = ({ children }) => {
     const [auth, setAuth] = useState({});
     const [imgUrl, setImgUrl] = useState();
     const [rightPaneStyle, setRightPaneStyle] = useState({
-        transform: `translateX(0%)`,
+        transform: `translateX(100%)`,
     });
-    console.log(rightPaneStyle);
+    const [socket, setSocket] = useState(null);
     const rightPaneToggle = () => {
         setRightPaneStyle((prevValue) => ({
             transform:
@@ -17,7 +18,9 @@ export const AppContext = ({ children }) => {
                     : `translateX(0%)`,
         }));
     };
-
+    useEffect(() => {
+        setSocket(io("http://192.168.12.1:8000/"));
+    }, []);
     return (
         <Context.Provider
             value={{
@@ -27,6 +30,8 @@ export const AppContext = ({ children }) => {
                 setImgUrl,
                 rightPaneStyle,
                 rightPaneToggle,
+                socket,
+                setSocket,
             }}
         >
             {children}

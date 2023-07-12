@@ -15,8 +15,7 @@ export default function Middlepane(props) {
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
-
-    const { rightPaneStyle, rightPaneToggle } = useContext(Context);
+    const { rightPaneStyle, rightPaneToggle, socket } = useContext(Context);
 
     useEffect(() => {
         const conId = props.currentChatDetails.conversationId;
@@ -35,12 +34,15 @@ export default function Middlepane(props) {
     useEffect(() => {
         scrollToBottom();
     }, [chatText, messages]);
+
     function handleShow() {
         setShowEmojis(!showEmojis);
     }
+
     function handleChange(e) {
         setChatText((prev) => e.target.value);
     }
+
     const onEmojiClick = (event, emojiObject) => {
         const cursor = ref.current.selectionStart;
         const text =
@@ -52,10 +54,12 @@ export default function Middlepane(props) {
             10
         );
     };
+
     function handleSend(e) {
         if (chatText !== "") {
-            const conversationId = localStorage.getItem("conversationId");
+            const conversationId = props.currentChatDetails.conversationId;
             if (conversationId === null) {
+                console.log(chatText);
                 setChatText((prev) => "");
                 setShowEmojis((prev) => false);
                 return;
@@ -70,11 +74,20 @@ export default function Middlepane(props) {
                 url: URL + "/api/message/set",
                 withCredentials: true,
                 data: bodyFormData,
-            }).then((response) => console.log(response));
+            }).then((response) => {
+                console.log(response);
+                socket?.emit("sendMessage", {
+                    senderId: bodyFormData.senderId,
+                    receiverId: props.currentChatDetails.receiverId,
+                    message: bodyFormData.message,
+                    conversationId: bodyFormData.conversationId,
+                });
+            });
             setChatText((prev) => "");
             setShowEmojis((prev) => false);
         }
     }
+    console.log(messages);
     const divs = messages?.map(({ message, senderId }, index) => {
         if (senderId === localStorage.getItem("userId"))
             return (
@@ -97,6 +110,22 @@ export default function Middlepane(props) {
                 </div>
             );
     });
+    //console.log(messages);
+
+    useEffect(() => {
+        socket?.emit("addUser", props.userDetails.userId);
+        socket?.on("getUsers", (users) => {
+            console.log("activeUsers :>> ", users);
+        });
+        socket?.on("getMessage", (data) => {
+            console.log(data);
+            setMessages((prev) => [
+                ...prev,
+                { senderId: data.senderId, message: data.message },
+            ]);
+        });
+    }, [socket]);
+
     return (
         <div className="middlepane">
             <div className="middlepaneHeader">
@@ -114,10 +143,7 @@ export default function Middlepane(props) {
                         )}
                     </div>
                 </div>
-                <button
-                    className="settingsBtn"
-                    onClick={rightPaneToggle}
-                >
+                <button className="settingsBtn" onClick={rightPaneToggle}>
                     <IonIcon icon={settingsOutline} className="settingsIcon" />
                 </button>
             </div>

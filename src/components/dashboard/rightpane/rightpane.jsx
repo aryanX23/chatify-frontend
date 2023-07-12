@@ -6,10 +6,10 @@ import { Context } from "../../../context/AppProvider.js";
 import { motion } from "framer-motion";
 
 export default function Rightpane(props) {
-    console.log(props.pannelVisibility);
+    //console.log(props.pannelVisibility);
     const { rightPaneStyle, rightPaneToggle } = useContext(Context);
 
-    console.log(rightPaneStyle);
+    //console.log(rightPaneStyle);
     return (
         <div className="containerPane" style={rightPaneStyle}>
             <div className="leftOpac"></div>

@@ -14,13 +14,12 @@ export default function Leftpane(props) {
                 setUserConversation((prev) => data);
             }
         );
-    }, [userConversations,props.userDetails.userId]);
-
+    }, [props.currentChatDetails]);
     const divs = userConversations.map(
-        ({ conversationId, user: { email, fullName } }) => {
+        ({ conversationId, user: { email, fullName }, receiverid }) => {
             return (
                 <div className="messages" key={conversationId} onClick={() => {
-                    const data = { name: fullName, email: email, conversationId: conversationId };
+                    const data = { name: fullName, email: email, conversationId: conversationId, receiverId:receiverid };
                     props.handleUpdateState(data);
                 }}>
                     <img
