@@ -5,7 +5,7 @@ import { URL } from "../api/axios";
 export const Context = createContext();
 
 export const AppContext = ({ children }) => {
-    const [auth, setAuth] = useState({});
+    const [auth, setAuth] = useState("");
     const [imgUrl, setImgUrl] = useState();
     const [rightPaneStyle, setRightPaneStyle] = useState({
         transform: `translateX(100%)`,
@@ -20,8 +20,12 @@ export const AppContext = ({ children }) => {
         }));
     };
     useEffect(() => {
-        setSocket(io(URL));
-    }, []);
+        let temp = localStorage.getItem("isAuthenticated");
+        temp && temp !== null ?
+            setSocket(io(URL)) :
+            setSocket(null);
+        
+    }, [auth]);
     return (
         <Context.Provider
             value={{

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import EmojiPicker from "emoji-picker-react";
 import { IonIcon } from "@ionic/react";
-import { happyOutline, sendSharp, settingsOutline } from "ionicons/icons";
+import { happyOutline, sendSharp, settingsOutline, logOutOutline} from "ionicons/icons";
 import "./middlepane.css";
 import { Axios, URL } from "../../../api/axios";
 import { Context } from "../../../context/AppProvider";
@@ -12,11 +12,8 @@ export default function Middlepane(props) {
     const [messages, setMessages] = useState([]);
     const ref = useRef(null);
     const messagesEndRef = useRef(null);
-    const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    };
-    const { rightPaneStyle, rightPaneToggle, socket } = useContext(Context);
-
+    const { rightPaneToggle, socket } = useContext(Context);
+    
     useEffect(() => {
         const conId = props.currentChatDetails.conversationId;
         if (conId !== "") {
@@ -30,19 +27,29 @@ export default function Middlepane(props) {
                 });
         }
     }, [props.currentChatDetails.conversationId]);
-
     useEffect(() => {
         scrollToBottom();
     }, [chatText, messages]);
-
+    useEffect(() => {
+        socket?.emit("addUser", props.userDetails.userId);
+        socket?.on("getUsers", (users) => {
+            console.log("activeUsers :>> ", users);
+        });
+        socket?.on("getMessage", (data) => {
+            console.log(data);
+            setMessages((prev) => [
+                ...prev,
+                { senderId: data.senderId, message: data.message },
+            ]);
+        });
+    }, [socket, props.userDetails.userId]);
+    
     function handleShow() {
         setShowEmojis(!showEmojis);
     }
-
     function handleChange(e) {
         setChatText((prev) => e.target.value);
     }
-
     const onEmojiClick = (event, emojiObject) => {
         const cursor = ref.current.selectionStart;
         const text =
@@ -54,7 +61,6 @@ export default function Middlepane(props) {
             10
         );
     };
-
     function handleSend(e) {
         if (chatText !== "") {
             const conversationId = props.currentChatDetails.conversationId;
@@ -87,7 +93,6 @@ export default function Middlepane(props) {
             setShowEmojis((prev) => false);
         }
     }
-    console.log(messages);
     const divs = messages?.map(({ message, senderId }, index) => {
         if (senderId === localStorage.getItem("userId"))
             return (
@@ -99,7 +104,7 @@ export default function Middlepane(props) {
                     />
                 </div>
             );
-        else
+        else if(senderId === props.currentChatDetails.receiverId)
             return (
                 <div className="senderMessage" key={index}>
                     <img
@@ -109,20 +114,16 @@ export default function Middlepane(props) {
                     <div className="innerText">{message}</div>
                 </div>
             );
+        else {
+            return (
+                ""
+            );
+        }
     });
-    useEffect(() => {
-        socket?.emit("addUser", props.userDetails.userId);
-        socket?.on("getUsers", (users) => {
-            console.log("activeUsers :>> ", users);
-        });
-        socket?.on("getMessage", (data) => {
-            console.log(data);
-            setMessages((prev) => [
-                ...prev,
-                { senderId: data.senderId, message: data.message },
-            ]);
-        });
-    }, [socket]);
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+    
 
     return (
         <div className="middlepane">
@@ -141,12 +142,28 @@ export default function Middlepane(props) {
                         )}
                     </div>
                 </div>
-                <button className="settingsBtn" onClick={rightPaneToggle}>
-                    <IonIcon icon={settingsOutline} className="settingsIcon" />
-                </button>
+                <div style={{ display: "flex" }}>
+                    <button className="settingsBtn" onClick={rightPaneToggle}>
+                        <IonIcon
+                            icon={settingsOutline}
+                            className="settingsIcon"
+                        />
+                    </button>
+                    <button
+                        className="settingsBtn"
+                        onClick={props.handleLogout}
+                    >
+                        <IonIcon
+                            icon={logOutOutline}
+                            className="settingsIcon"
+                        />
+                    </button>
+                </div>
             </div>
             <div className="middlepaneBody">
-                {divs ? divs : ""}
+                {divs ? (
+                    divs
+                ) : ""}
                 <div ref={messagesEndRef} />
             </div>
             <div className="middlepaneFooter">

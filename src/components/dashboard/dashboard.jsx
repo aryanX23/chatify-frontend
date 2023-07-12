@@ -8,6 +8,7 @@ import Middlepane from "./middlepane/middlepane";
 import { Context } from "../../context/AppProvider";
 
 export default function Dashboard() {
+    const { rightPaneStyle, socket, setSocket, setAuth} = useContext(Context);
     const [userDetails, setUserDetails] = useState({
         userId: localStorage.getItem("userId"),
         email: localStorage.getItem("email"),
@@ -21,7 +22,6 @@ export default function Dashboard() {
         receiverId: "",
     });
     const navigate = useNavigate();
-    const { rightPaneStyle, rightPaneToggle } = useContext(Context);
 
     useEffect(() => {
         Axios({
@@ -40,15 +40,19 @@ export default function Dashboard() {
                         email: "",
                         userId: "",
                     }));
+                    socket?.emit("disconnect");
+                    setSocket(null);
+                    setAuth(prev => false);
                     navigate("/chatify-frontend/");
                 } else {
                     localStorage.setItem("isAuthenticated", true);
+                    setAuth((prev) => true);
                 }
             })
             .catch(function (response) {
                 console.log("Invalid Operation!");
             });
-    }, [navigate]);
+    }, [navigate,socket,setSocket,setAuth]);
     function handleLogout() {
         Axios({
             method: "post",
@@ -65,10 +69,14 @@ export default function Dashboard() {
                     email: "",
                     userId: "",
                 }));
-                navigate("/");
+                socket?.emit("disconnect");
+                setSocket(null);
+                setAuth((prev) => false);
+                navigate("/chatify-frontend/");
             })
             .catch(function (response) {
                 console.log("Invalid Operation!");
+                window.location.reload();
             });
     }
     function handleUpdateState(data) {
@@ -90,6 +98,7 @@ export default function Dashboard() {
                 userDetails={userDetails}
                 pannelVisibility={pannelVisibility}
                 handleVisibility={handleVisibility}
+                handleLogout = {handleLogout}
             />
             <Rightpane
                 style={rightPaneStyle}
