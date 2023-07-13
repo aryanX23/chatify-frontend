@@ -10,6 +10,7 @@ export default function Middlepane(props) {
     const [chatText, setChatText] = useState("");
     const [showEmojis, setShowEmojis] = useState(false);
     const [messages, setMessages] = useState([]);
+    const [online] = useState(false);
     const ref = useRef(null);
     const messagesEndRef = useRef(null);
     const { rightPaneToggle, socket } = useContext(Context);
@@ -33,16 +34,15 @@ export default function Middlepane(props) {
     useEffect(() => {
         socket?.emit("addUser", props.userDetails.userId);
         socket?.on("getUsers", (users) => {
-            console.log("activeUsers :>> ", users);
+            console.log(users);
         });
         socket?.on("getMessage", (data) => {
-            console.log(data);
             setMessages((prev) => [
                 ...prev,
                 { senderId: data.senderId, message: data.message },
             ]);
         });
-    }, [socket, props.userDetails.userId]);
+    }, [socket, props.userDetails.userId,props.currentChatDetails.receiverId]);
     
     function handleShow() {
         setShowEmojis(!showEmojis);
@@ -138,7 +138,7 @@ export default function Middlepane(props) {
                             {props.currentChatDetails.name}
                         </span>
                         {props.currentChatDetails.name !== "" && (
-                            <span className="userStatus">Online</span>
+                            <span className="userStatus">{ online ? "Online" : "Offline" }</span>
                         )}
                     </div>
                 </div>
