@@ -12,4 +12,4 @@ export const axiosPrivate = axios.create({
     withCredentials: true
 });
 
-export const URL = BASE_URL;
+export const URL = BASE_URL ;
