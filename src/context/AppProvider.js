@@ -1,12 +1,9 @@
-import { createContext, useState, useEffect } from "react";
-import { io } from "socket.io-client";
-import { URL } from "../api/axios";
+import { createContext, useState } from "react";
 
 export const Context = createContext();
 
 export const AppContext = ({ children }) => {
     const [auth, setAuth] = useState("");
-    const [imgUrl, setImgUrl] = useState();
     const [rightPaneStyle, setRightPaneStyle] = useState({
         transform: `translateX(100%)`,
     });
@@ -19,20 +16,11 @@ export const AppContext = ({ children }) => {
                     : `translateX(0%)`,
         }));
     };
-    useEffect(() => {
-        let temp = localStorage.getItem("isAuthenticated");
-        temp && temp !== null ?
-            setSocket(io(URL)) :
-            setSocket(null);
-        
-    }, [auth]);
     return (
         <Context.Provider
             value={{
                 auth,
                 setAuth,
-                imgUrl,
-                setImgUrl,
                 rightPaneStyle,
                 rightPaneToggle,
                 socket,

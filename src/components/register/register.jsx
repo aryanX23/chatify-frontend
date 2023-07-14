@@ -3,7 +3,7 @@ import './register.css';
 import { IonIcon } from '@ionic/react';
 import { mail, lockClosed, person, closeCircle, checkmarkCircle, alertCircle } from 'ionicons/icons';
 import { Link, useNavigate } from 'react-router-dom';
-import { Axios, URL } from '../../api/axios';
+import {  Axios,URL } from '../../api/axios';
 
 export default function Register() {
     const navigate = useNavigate();
@@ -38,7 +38,7 @@ export default function Register() {
             };
             Axios({
                 method: "post",
-                url: URL+"/api/users/register/",
+                url: URL + "users/register/",
                 data: bodyFormData,
                 })
                 .then(function (response) {

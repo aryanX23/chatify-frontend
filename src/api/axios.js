@@ -1,5 +1,5 @@
 import axios from 'axios';
-const BASE_URL = "https://chatify-backend-3jfn.onrender.com";
+const BASE_URL = "/api/";
 
 export const Axios = axios.create({
     headers: { 'Content-Type': 'application/json' },

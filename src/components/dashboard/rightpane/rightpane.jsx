@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import "./rightpane.css";
 import { IonIcon } from "@ionic/react";
 import { closeSharp } from "ionicons/icons";
@@ -6,10 +6,7 @@ import { Context } from "../../../context/AppProvider.js";
 import { motion } from "framer-motion";
 
 export default function Rightpane(props) {
-    //console.log(props.pannelVisibility);
     const { rightPaneStyle, rightPaneToggle } = useContext(Context);
-
-    //console.log(rightPaneStyle);
     return (
         <div className="containerPane" style={rightPaneStyle}>
             <div className="leftOpac"></div>

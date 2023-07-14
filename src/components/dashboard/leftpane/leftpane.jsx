@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import "./leftpane.css";
 import { IonIcon } from "@ionic/react";
 import { addSharp, sendSharp, searchSharp } from "ionicons/icons";
-import { Axios, URL } from "../../../api/axios";
+import { Axios,URL } from "../../../api/axios";
 export default function Leftpane(props) {
     const [visibility, setVisibility] = useState(false);
     const [userConversations, setUserConversation] = useState([]);
     const [receiverId, setReceiverId] = useState("");
     useEffect(() => {
-        Axios.get(URL + "/api/conversation/" + props.userDetails.userId).then(
+        Axios.get(URL+"conversation/" + props.userDetails.userId).then(
             (response) => {
                 const data = response.data; 
                 setUserConversation((prev) => data);
@@ -41,7 +41,7 @@ export default function Leftpane(props) {
         }
         Axios({
             method: "post",
-            url: URL + "/api/conversation/",
+            url: URL+"conversation/",
             withCredentials: true,
             data: bodyFormData,
         }).then(response => console.log(response));

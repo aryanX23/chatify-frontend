@@ -3,7 +3,7 @@ import './signIn.css';
 import { IonIcon } from '@ionic/react';
 import { mail, lockClosed, closeCircle, alertCircle } from 'ionicons/icons';
 import { Link, useNavigate } from 'react-router-dom';
-import { Axios, URL } from '../../api/axios';
+import { Axios, URL} from '../../api/axios';
 export default function SignIn() {
     const navigate = useNavigate();
     useEffect(() => {
@@ -42,7 +42,7 @@ export default function SignIn() {
             };
         Axios({
             method: "post",
-            url: URL + "/api/users/login/",
+            url: URL + "users/login/",
             withCredentials:true,
             data: bodyFormData,
             })

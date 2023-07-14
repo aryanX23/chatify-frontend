@@ -3,8 +3,9 @@ import EmojiPicker from "emoji-picker-react";
 import { IonIcon } from "@ionic/react";
 import { happyOutline, sendSharp, settingsOutline, logOutOutline} from "ionicons/icons";
 import "./middlepane.css";
-import { Axios, URL } from "../../../api/axios";
+import { Axios,URL } from "../../../api/axios";
 import { Context } from "../../../context/AppProvider";
+import { io } from "socket.io-client";
 
 export default function Middlepane(props) {
     const [chatText, setChatText] = useState("");
@@ -13,12 +14,12 @@ export default function Middlepane(props) {
     const [online] = useState(false);
     const ref = useRef(null);
     const messagesEndRef = useRef(null);
-    const { rightPaneToggle, socket } = useContext(Context);
-    
+    const { rightPaneToggle } = useContext(Context);
+    const [socket, setSocket] = useState(null);
     useEffect(() => {
         const conId = props.currentChatDetails.conversationId;
         if (conId !== "") {
-            Axios.get(URL + "/api/message/get/" + conId)
+            Axios.get(URL+"message/get/" + conId)
                 .then((response) => {
                     const data = response.data.data;
                     setMessages((prev) => data);
@@ -32,17 +33,23 @@ export default function Middlepane(props) {
         scrollToBottom();
     }, [chatText, messages]);
     useEffect(() => {
-        socket?.emit("addUser", props.userDetails.userId);
-        socket?.on("getUsers", (users) => {
+        const value = io("http://localhost:8000");
+        setSocket(prev=>value);
+        value.emit("addUser", props.userDetails.userId);
+        value.on("getUsers", (users) => {
             console.log(users);
         });
-        socket?.on("getMessage", (data) => {
+        value.on("getMessage", (data) => {
             setMessages((prev) => [
                 ...prev,
                 { senderId: data.senderId, message: data.message },
             ]);
         });
-    }, [socket, props.userDetails.userId,props.currentChatDetails.receiverId]);
+        return () => {
+            value.emit("disconnec");
+            setSocket(prev=>null);
+        }
+    }, []);
     
     function handleShow() {
         setShowEmojis(!showEmojis);
@@ -65,7 +72,6 @@ export default function Middlepane(props) {
         if (chatText !== "") {
             const conversationId = props.currentChatDetails.conversationId;
             if (conversationId === null) {
-                console.log(chatText);
                 setChatText((prev) => "");
                 setShowEmojis((prev) => false);
                 return;
@@ -77,7 +83,7 @@ export default function Middlepane(props) {
             };
             Axios({
                 method: "post",
-                url: URL + "/api/message/set",
+                url: URL + "message/set",
                 withCredentials: true,
                 data: bodyFormData,
             }).then((response) => {

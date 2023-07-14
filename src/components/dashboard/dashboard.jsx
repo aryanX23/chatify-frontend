@@ -8,7 +8,7 @@ import Middlepane from "./middlepane/middlepane";
 import { Context } from "../../context/AppProvider";
 
 export default function Dashboard() {
-    const { rightPaneStyle, socket, setSocket, setAuth} = useContext(Context);
+    const { rightPaneStyle } = useContext(Context);
     const [userDetails, setUserDetails] = useState({
         userId: localStorage.getItem("userId"),
         email: localStorage.getItem("email"),
@@ -26,7 +26,7 @@ export default function Dashboard() {
     useEffect(() => {
         Axios({
             method: "post",
-            url: URL + "/api/users/checkAuth/",
+            url: URL+ "users/checkAuth/",
             data: {
                 userId: localStorage.getItem("userId"),
             },
@@ -40,23 +40,19 @@ export default function Dashboard() {
                         email: "",
                         userId: "",
                     }));
-                    socket?.emit("disconnect");
-                    setSocket(null);
-                    setAuth(prev => false);
                     navigate("/chatify-frontend/");
                 } else {
                     localStorage.setItem("isAuthenticated", true);
-                    setAuth((prev) => true);
                 }
             })
             .catch(function (response) {
                 console.log("Invalid Operation!");
             });
-    }, [navigate,socket,setSocket,setAuth]);
+    }, []);
     function handleLogout() {
         Axios({
             method: "post",
-            url: URL + "/api/users/logOut/",
+            url: URL+"users/logOut/",
             data: {
                 userId: userDetails.userId,
             },
@@ -69,9 +65,6 @@ export default function Dashboard() {
                     email: "",
                     userId: "",
                 }));
-                socket?.emit("disconnect");
-                setSocket(null);
-                setAuth((prev) => false);
                 navigate("/chatify-frontend/");
             })
             .catch(function (response) {
