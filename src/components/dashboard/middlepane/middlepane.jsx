@@ -36,11 +36,11 @@ export default function Middlepane(props) {
         setSocket(io("https://chatify-production.up.railway.app"));
     },[]);
     useEffect(() => {
-        value.emit("addUser", props.userDetails.userId);
-        value.on("getUsers", (users) => {
+        socket.emit("addUser", props.userDetails.userId);
+        socket.on("getUsers", (users) => {
             console.log(users);
         });
-        value.on("getMessage", (data) => {
+        socket.on("getMessage", (data) => {
             setMessages((prev) => [
                 ...prev,
                 { senderId: data.senderId, message: data.message },
