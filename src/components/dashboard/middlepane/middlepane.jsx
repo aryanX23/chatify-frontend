@@ -33,7 +33,7 @@ export default function Middlepane(props) {
         scrollToBottom();
     }, [chatText, messages]);
     useEffect(() => {
-        setSocket(io("https://chatify-production.up.railway.app"));
+        setSocket(io("https://chatify-app-qhgp.onrender.com"));
     },[]);
     useEffect(() => {
         socket?.emit("addUser", props.userDetails.userId);
