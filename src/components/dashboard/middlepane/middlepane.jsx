@@ -33,8 +33,9 @@ export default function Middlepane(props) {
         scrollToBottom();
     }, [chatText, messages]);
     useEffect(() => {
-        const value = io("https://chatify-production.up.railway.app");
-        setSocket(prev=>value);
+        setSocket(io("https://chatify-production.up.railway.app"));
+    },[]);
+    useEffect(() => {
         value.emit("addUser", props.userDetails.userId);
         value.on("getUsers", (users) => {
             console.log(users);
@@ -45,11 +46,7 @@ export default function Middlepane(props) {
                 { senderId: data.senderId, message: data.message },
             ]);
         });
-        return () => {
-            value.emit("disconnec");
-            setSocket(prev=>null);
-        }
-    }, []);
+    }, [socket]);
     
     function handleShow() {
         setShowEmojis(!showEmojis);
