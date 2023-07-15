@@ -26,7 +26,7 @@ export default function Dashboard() {
     useEffect(() => {
         Axios({
             method: "post",
-            url: URL+ "users/checkAuth/",
+            url: URL+ "/users/checkAuth/",
             data: {
                 userId: localStorage.getItem("userId"),
             },
@@ -52,7 +52,7 @@ export default function Dashboard() {
     function handleLogout() {
         Axios({
             method: "post",
-            url: URL+"users/logOut/",
+            url: URL+"/users/logOut/",
             data: {
                 userId: userDetails.userId,
             },

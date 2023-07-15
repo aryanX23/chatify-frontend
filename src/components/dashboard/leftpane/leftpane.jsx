@@ -8,13 +8,13 @@ export default function Leftpane(props) {
     const [userConversations, setUserConversation] = useState([]);
     const [receiverId, setReceiverId] = useState("");
     useEffect(() => {
-        Axios.get(URL+"conversation/" + props.userDetails.userId).then(
+        Axios.get(URL+"/conversation/" + props.userDetails.userId).then(
             (response) => {
                 const data = response.data; 
                 setUserConversation((prev) => data);
             }
         );
-    }, [props.currentChatDetails]);
+    }, [props.currentChatDetails,userConversations]);
     const divs = userConversations.map(
         ({ conversationId, user: { email, fullName }, receiverid }) => {
             return (
@@ -41,7 +41,7 @@ export default function Leftpane(props) {
         }
         Axios({
             method: "post",
-            url: URL+"conversation/",
+            url: URL+"/conversation/",
             withCredentials: true,
             data: bodyFormData,
         }).then(response => console.log(response));

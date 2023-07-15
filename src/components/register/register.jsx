@@ -38,7 +38,7 @@ export default function Register() {
             };
             Axios({
                 method: "post",
-                url: URL + "users/register/",
+                url: URL + "/users/register/",
                 data: bodyFormData,
                 })
                 .then(function (response) {

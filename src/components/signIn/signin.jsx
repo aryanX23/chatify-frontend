@@ -42,7 +42,7 @@ export default function SignIn() {
             };
         Axios({
             method: "post",
-            url: URL + "users/login/",
+            url: URL + "/users/login/",
             withCredentials:true,
             data: bodyFormData,
             })

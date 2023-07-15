@@ -19,7 +19,7 @@ export default function Middlepane(props) {
     useEffect(() => {
         const conId = props.currentChatDetails.conversationId;
         if (conId !== "") {
-            Axios.get(URL+"message/get/" + conId)
+            Axios.get(URL+"/message/get/" + conId)
                 .then((response) => {
                     const data = response.data.data;
                     setMessages((prev) => data);
@@ -33,7 +33,7 @@ export default function Middlepane(props) {
         scrollToBottom();
     }, [chatText, messages]);
     useEffect(() => {
-        const value = io("http://localhost:8000");
+        const value = io("https://chatify-app-qhgp.onrender.com:8000");
         setSocket(prev=>value);
         value.emit("addUser", props.userDetails.userId);
         value.on("getUsers", (users) => {
@@ -83,7 +83,7 @@ export default function Middlepane(props) {
             };
             Axios({
                 method: "post",
-                url: URL + "message/set",
+                url: URL + "/message/set",
                 withCredentials: true,
                 data: bodyFormData,
             }).then((response) => {
